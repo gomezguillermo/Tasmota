@@ -1,7 +1,7 @@
 /*
   xdrv_21_wemo.ino - wemo support for Tasmota
 
-  Copyright (C) 2020  Heiko Krupp and Theo Arends
+  Copyright (C) 2021  Heiko Krupp and Theo Arends
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -76,8 +76,6 @@ void WemoRespondToMSearch(int echo_type)
   // Do not use AddLog_P( here (interrupt routine) if syslog or mqttlog is enabled. UDP/TCP will force exception 9
   AddLog_P(LOG_LEVEL_DEBUG, PSTR(D_LOG_UPNP D_WEMO " " D_JSON_TYPE " %d, %s " D_TO " %s:%d"),
     echo_type, message, udp_remote_ip.toString().c_str(), udp_remote_port);
-
-  udp_response_mutex = false;
 }
 
 /*********************************************************************************************\

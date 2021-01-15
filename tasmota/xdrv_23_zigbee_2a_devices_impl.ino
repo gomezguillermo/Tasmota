@@ -1,7 +1,7 @@
 /*
   xdrv_23_zigbee_2a_devices_impl.ino - zigbee support for Tasmota
 
-  Copyright (C) 2020  Theo Arends and Stephan Hadinger
+  Copyright (C) 2021  Theo Arends and Stephan Hadinger
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -511,15 +511,19 @@ void Z_Device::jsonPublishAttrList(const char * json_prefix, const Z_attribute_l
 
   TasmotaGlobal.mqtt_data[0] = 0; // clear string
   // Do we prefix with `ZbReceived`?
-  if (!Settings.flag4.remove_zbreceived) {
+  if (!Settings.flag4.remove_zbreceived && !Settings.flag5.zb_received_as_subtopic) {
     Response_P(PSTR("{\"%s\":"), json_prefix);
   }
   // What key do we use, shortaddr or name?
-  if (use_fname) {
-    Response_P(PSTR("%s{\"%s\":{"), TasmotaGlobal.mqtt_data, friendlyName);
-  } else {
-    Response_P(PSTR("%s{\"0x%04X\":{"), TasmotaGlobal.mqtt_data, shortaddr);
+  if (!Settings.flag5.zb_omit_json_addr) {
+    if (use_fname) {
+      Response_P(PSTR("%s{\"%s\":"), TasmotaGlobal.mqtt_data, friendlyName);
+    } else {
+      Response_P(PSTR("%s{\"0x%04X\":"), TasmotaGlobal.mqtt_data, shortaddr);
+    }
   }
+  ResponseAppend_P(PSTR("{"));
+
   // Add "Device":"0x...."
   ResponseAppend_P(PSTR("\"" D_JSON_ZIGBEE_DEVICE "\":\"0x%04X\","), shortaddr);
   // Add "Name":"xxx" if name is present
@@ -527,9 +531,13 @@ void Z_Device::jsonPublishAttrList(const char * json_prefix, const Z_attribute_l
     ResponseAppend_P(PSTR("\"" D_JSON_ZIGBEE_NAME "\":\"%s\","), EscapeJSONString(friendlyName).c_str());
   }
   // Add all other attributes
-  ResponseAppend_P(PSTR("%s}}"), attr_list.toString(false).c_str());
+  ResponseAppend_P(PSTR("%s}"), attr_list.toString(false).c_str());
 
-  if (!Settings.flag4.remove_zbreceived) {
+  if (!Settings.flag5.zb_omit_json_addr) {
+    ResponseAppend_P(PSTR("}"));
+  }
+
+  if (!Settings.flag4.remove_zbreceived && !Settings.flag5.zb_received_as_subtopic) {
     ResponseAppend_P(PSTR("}"));
   }
 
@@ -545,7 +553,10 @@ void Z_Device::jsonPublishAttrList(const char * json_prefix, const Z_attribute_l
       snprintf_P(subtopic, sizeof(subtopic), PSTR("%s/%04X"), TasmotaGlobal.mqtt_topic, shortaddr);
     }
     char stopic[TOPSZ];
-    GetTopic_P(stopic, TELE, subtopic, D_RSLT_SENSOR);
+    if (Settings.flag5.zb_received_as_subtopic)
+      GetTopic_P(stopic, TELE, subtopic, json_prefix);
+    else
+      GetTopic_P(stopic, TELE, subtopic, D_RSLT_SENSOR);
     MqttPublish(stopic, Settings.flag.mqtt_sensor_retain);
   } else {
     MqttPublishPrefixTopic_P(TELE, PSTR(D_RSLT_SENSOR), Settings.flag.mqtt_sensor_retain);
@@ -670,9 +681,9 @@ void Z_Device::jsonAddConfig(Z_attribute_list & attr_list) const {
   for (auto & data_elt : data) {
     char key[8];
     if (data_elt.validConfig()) {
-      snprintf_P(key, sizeof(key), "?%02X.%1X", data_elt.getEndpoint(), data_elt.getConfig());
+      snprintf_P(key, sizeof(key), PSTR("?%02X.%1X"), data_elt.getEndpoint(), data_elt.getConfig());
     } else {
-      snprintf_P(key, sizeof(key), "?%02X", data_elt.getEndpoint());
+      snprintf_P(key, sizeof(key), PSTR("?%02X"), data_elt.getEndpoint());
     }
     key[0] = Z_Data::DataTypeToChar(data_elt.getType());
     arr_data.addStr(key);
