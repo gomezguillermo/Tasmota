@@ -100,6 +100,7 @@
 #define D_FALSE "Onwaar"
 #define D_FILE "Lêer"
 #define D_FLOW_RATE "Vloeitempo"
+#define D_FRAGMENTATION "frag."      // Lower case abbreviated version of fragmentation used in "memory fragmentation"
 #define D_FREE_MEMORY "Vrye geheue"
 #define D_PSR_MAX_MEMORY "PS-RAM geheue"
 #define D_PSR_FREE_MEMORY "PS-RAM vrye geheue"
@@ -782,6 +783,11 @@
 #define D_SENSOR_SSD1331_CS    "SSD1331 CS"
 #define D_SENSOR_SSD1331_DC    "SSD1331 DC"
 #define D_SENSOR_SDCARD_CS     "SDCard CS"
+#define D_SENSOR_WIEGAND_D0    "Wiegand D0"
+#define D_SENSOR_WIEGAND_D1    "Wiegand D1"
+#define D_SENSOR_NEOPOOL_TX    "NeoPool Tx"
+#define D_SENSOR_NEOPOOL_RX    "NeoPool Rx"
+
 
 // Units
 #define D_UNIT_AMPERE "A"
@@ -952,5 +958,57 @@
 #define D_FP_ADDRCODE "Adres kode"           // 0x20 Address code
 #define D_FP_PASSVERIFY "Wagwoord geverifieer"    // 0x21 Verify the fingerprint passed
 #define D_FP_UNKNOWNERROR "Fout"              // Any other error
+
+// xsns_83_neopool.ino
+#define D_NEOPOOL_MACH_NONE               "NeoPool"           // Machine names
+#define D_NEOPOOL_MACH_HIDROLIFE          "Hidrolife (geel)"
+#define D_NEOPOOL_MACH_AQUASCENIC         "Aquascenic (blou)"
+#define D_NEOPOOL_MACH_OXILIFE            "Oxilife (groen)"
+#define D_NEOPOOL_MACH_BIONET             "Bionet (ligblou)"
+#define D_NEOPOOL_MACH_HIDRONISER         "Hidroniser (rooi)"
+#define D_NEOPOOL_MACH_UVSCENIC           "UVScenic (sering)"
+#define D_NEOPOOL_MACH_STATION            "Station (oranje)"
+#define D_NEOPOOL_MACH_BRILIX             "Brilix"
+#define D_NEOPOOL_MACH_GENERIC            "Generic"
+#define D_NEOPOOL_MACH_BAYROL             "Bayrol"
+#define D_NEOPOOL_MACH_HAY                "Hay"
+#define D_NEOPOOL_FILTRATION_MANUAL       "Handmatig"            // Filtration modes
+#define D_NEOPOOL_FILTRATION_AUTO         "Outomaties"
+#define D_NEOPOOL_FILTRATION_HEATING      "Verhitting"
+#define D_NEOPOOL_FILTRATION_SMART        "Slim"
+#define D_NEOPOOL_FILTRATION_INTELLIGENT  "Intelligent"
+#define D_NEOPOOL_FILTRATION_BACKWASH     "Terugspoel"
+#define D_NEOPOOL_FILTRATION_NONE         ""                  // Filtration speed level
+#define D_NEOPOOL_FILTRATION_SLOW         "stadig"
+#define D_NEOPOOL_FILTRATION_MEDIUM       "medium"
+#define D_NEOPOOL_FILTRATION_FAST         "vinnig"
+#define D_NEOPOOL_TYPE                    "Tipe"              // Sensor & relais names
+#define D_NEOPOOL_REDOX                   "Redoks"
+#define D_NEOPOOL_CHLORINE                "Chloor"
+#define D_NEOPOOL_CONDUCTIVITY            "Geleidingsvermoë"
+#define D_NEOPOOL_IONIZATION              "Ionisering"
+#define D_NEOPOOL_HYDROLYSIS              "Hidrolise"
+#define D_NEOPOOL_RELAY                   "Relais"
+#define D_NEOPOOL_RELAY_FILTRATION        "Filtrasie"
+#define D_NEOPOOL_RELAY_LIGHT             "Lig"
+#define D_NEOPOOL_RELAY_PH_ACID           "Suurpomp"
+#define D_NEOPOOL_RELAY_PH_BASE           "Basispump"
+#define D_NEOPOOL_RELAY_RX                "Redoksvlak"
+#define D_NEOPOOL_RELAY_CL                "Chloorpomp"
+#define D_NEOPOOL_RELAY_CD                "Pekelwaterpomp"
+#define D_NEOPOOL_TIME                    "Tyd"
+#define D_NEOPOOL_FILT_MODE               "Filtrasie"
+#define D_NEOPOOL_POLARIZATION            "Pol"               // Sensor status
+#define D_NEOPOOL_PR_OFF                  "PrOff"
+#define D_NEOPOOL_SETPOINT_OK             "Oké"
+#define D_NEOPOOL_COVER                   "Voorblad"
+#define D_NEOPOOL_SHOCK                   "Skok"
+#define D_NEOPOOL_ALARM                   "! "
+#define D_NEOPOOL_LOW                     "Laag"
+#define D_NEOPOOL_FLOW1                   "FL1"
+#define D_NEOPOOL_FLOW2                   "FL2"
+#define D_NEOPOOL_PH_HIGH                 "te hoog"          // ph Alarms
+#define D_NEOPOOL_PH_LOW                  "te laag"
+#define D_NEOPOOL_PUMP_TIME_EXCEEDED      "pomptyd oorskry"
 
 #endif  // _LANGUAGE_AF_AF_H_

@@ -48,9 +48,16 @@ const uint32_t POWER_MASK = 0xffffffffUL;   // Power (Relay) full mask
  * Constants
 \*********************************************************************************************/
 
+#ifdef ESP8266
+const uint8_t MAX_RELAYS = 8;               // Max number of relays
+#endif  // ESP8266
+#ifdef ESP32
+const uint8_t MAX_RELAYS = 28;              // Max number of relays
+#endif  // ESP32
+
 // Changes to the following MAX_ defines will impact settings layout
 const uint8_t MAX_SWITCHES = 8;             // Max number of switches
-const uint8_t MAX_RELAYS = 8;               // Max number of relays
+const uint8_t MAX_SHUTTER_RELAYS = 8;       // Max number of shutter relays
 const uint8_t MAX_INTERLOCKS = 4;           // Max number of interlock groups (MAX_RELAYS / 2)
 const uint8_t MAX_LEDS = 4;                 // Max number of leds
 const uint8_t MAX_KEYS = 4;                 // Max number of keys or buttons
@@ -270,7 +277,7 @@ enum LightTypes    { LT_BASIC, LT_PWM1,    LT_PWM2,      LT_PWM3,   LT_PWM4,  LT
 
 enum XsnsFunctions {FUNC_SETTINGS_OVERRIDE, FUNC_PIN_STATE, FUNC_MODULE_INIT, FUNC_PRE_INIT, FUNC_INIT,
                     FUNC_LOOP, FUNC_EVERY_50_MSECOND, FUNC_EVERY_100_MSECOND, FUNC_EVERY_200_MSECOND, FUNC_EVERY_250_MSECOND, FUNC_EVERY_SECOND,
-                    FUNC_SAVE_AT_MIDNIGHT, FUNC_SAVE_BEFORE_RESTART,
+                    FUNC_SAVE_SETTINGS, FUNC_SAVE_AT_MIDNIGHT, FUNC_SAVE_BEFORE_RESTART,
                     FUNC_AFTER_TELEPERIOD, FUNC_JSON_APPEND, FUNC_WEB_SENSOR, FUNC_COMMAND, FUNC_COMMAND_SENSOR, FUNC_COMMAND_DRIVER,
                     FUNC_MQTT_SUBSCRIBE, FUNC_MQTT_INIT, FUNC_MQTT_DATA,
                     FUNC_SET_POWER, FUNC_SET_DEVICE_POWER, FUNC_SHOW_SENSOR, FUNC_ANY_KEY,
